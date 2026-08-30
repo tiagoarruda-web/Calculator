@@ -1,0 +1,220 @@
+/* =========================================================================
+   style.css
+   -------------------------------------------------------------------------
+   Estilo visual da calculadora.
+
+   Direção de design: uma calculadora física de mesa, corpo em grafite
+   escuro, com um display no estilo LCD âmbar (como o de calculadoras
+   Casio clássicas) e teclas com relevo (efeito "tátil" de pressionar).
+
+   Paleta:
+   --cor-corpo:        #2b2d31  (grafite escuro do corpo da calculadora)
+   --cor-corpo-claro:   #35383e  (grafite um pouco mais claro, para relevo)
+   --cor-display-fundo: #1c1f1a  (fundo quase preto do visor, com leve verde)
+   --cor-lcd:           #ffb200  (âmbar do texto do display, tipo LCD)
+   --cor-tecla-num:     #3f434a  (cor das teclas numéricas)
+   --cor-tecla-operador:#c9762c  (laranja queimado, teclas de operação)
+   --cor-tecla-igual:   #4f8a5b  (verde, tecla de igual)
+   --cor-tecla-limpar:  #a6423a  (vermelho, tecla de limpar)
+   ========================================================================= */
+
+:root {
+    --cor-corpo: #2b2d31;
+    --cor-corpo-claro: #35383e;
+    --cor-display-fundo: #1c1f1a;
+    --cor-lcd: #ffb200;
+    --cor-lcd-fraca: rgba(255, 178, 0, 0.35);
+    --cor-tecla-num: #3f434a;
+    --cor-tecla-num-hover: #4a4f57;
+    --cor-tecla-operador: #c9762c;
+    --cor-tecla-operador-hover: #d98536;
+    --cor-tecla-igual: #4f8a5b;
+    --cor-tecla-igual-hover: #5b9c67;
+    --cor-tecla-limpar: #a6423a;
+    --cor-tecla-limpar-hover: #b84e45;
+    --sombra-tecla: 0 4px 0 rgba(0, 0, 0, 0.35);
+    --fonte-display: "Courier New", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --fonte-botoes: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Reset básico: remove margens/padding padrão do navegador e usa
+   box-sizing "border-box" para que padding/border não estourem a largura
+   definida nos elementos (facilita muito o cálculo de layout). */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    /* Centraliza a calculadora tanto na vertical quanto na horizontal,
+       usando Flexbox no body inteiro. */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top, #1a1c1f 0%, #0f1012 100%);
+    font-family: var(--fonte-botoes);
+    padding: 24px;
+}
+
+/* Corpo físico da calculadora: um "bloco" de grafite com cantos
+   arredondados e sombra para parecer um objeto real sobre a mesa. */
+.calculadora {
+    width: 100%;
+    max-width: 340px;
+    background: linear-gradient(160deg, var(--cor-corpo-claro), var(--cor-corpo));
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* -------------------------------------------------------------------------
+   Display (visor no estilo LCD âmbar)
+   ------------------------------------------------------------------------- */
+.display {
+    background: var(--cor-display-fundo);
+    border-radius: 14px;
+    padding: 18px 16px;
+    margin-bottom: 18px;
+    /* Sombra interna para simular a "profundidade" de um visor de verdade. */
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+    text-align: right;
+    /* overflow controlado: números grandes não quebram o layout. */
+    overflow: hidden;
+}
+
+.expressao {
+    min-height: 20px;
+    font-family: var(--fonte-display);
+    font-size: 0.95rem;
+    color: var(--cor-lcd-fraca);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.visor {
+    font-family: var(--fonte-display);
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: var(--cor-lcd);
+    letter-spacing: 2px;
+    /* Leve brilho no texto, reforçando a sensação de um display retroiluminado. */
+    text-shadow: 0 0 8px rgba(255, 178, 0, 0.45);
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+/* -------------------------------------------------------------------------
+   Grade de botões
+   ------------------------------------------------------------------------- */
+.botoes {
+    display: grid;
+    /* 4 colunas de mesma largura. */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.btn {
+    border: none;
+    border-radius: 12px;
+    padding: 18px 0;
+    font-family: var(--fonte-botoes);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #f2f2f2;
+    cursor: pointer;
+    /* Sombra "sólida" abaixo do botão, simulando uma tecla física com relevo. */
+    box-shadow: var(--sombra-tecla);
+    transition: transform 0.06s ease, box-shadow 0.06s ease, background-color 0.15s ease;
+}
+
+/* Efeito de "tecla pressionada": ao clicar, o botão desce e perde a sombra,
+   como se estivesse sendo fisicamente empurrado para dentro do corpo. */
+.btn:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+/* Foco visível pelo teclado (acessibilidade): contorno âmbar sutil. */
+.btn:focus-visible {
+    outline: 2px solid var(--cor-lcd);
+    outline-offset: 2px;
+}
+
+.btn-numero {
+    background-color: var(--cor-tecla-num);
+}
+.btn-numero:hover {
+    background-color: var(--cor-tecla-num-hover);
+}
+
+.btn-operador {
+    background-color: var(--cor-tecla-operador);
+}
+.btn-operador:hover {
+    background-color: var(--cor-tecla-operador-hover);
+}
+
+.btn-funcao {
+    background-color: var(--cor-tecla-num);
+    font-size: 1rem;
+}
+.btn-funcao:hover {
+    background-color: var(--cor-tecla-num-hover);
+}
+
+.btn-limpar {
+    background-color: var(--cor-tecla-limpar);
+}
+.btn-limpar:hover {
+    background-color: var(--cor-tecla-limpar-hover);
+}
+
+.btn-igual {
+    background-color: var(--cor-tecla-igual);
+}
+.btn-igual:hover {
+    background-color: var(--cor-tecla-igual-hover);
+}
+
+/* -------------------------------------------------------------------------
+   Mensagem de erro (ex: "Não é possível dividir por zero")
+   ------------------------------------------------------------------------- */
+.mensagem-erro {
+    min-height: 18px;
+    margin-top: 12px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--cor-tecla-limpar-hover);
+}
+
+/* -------------------------------------------------------------------------
+   Responsividade: em telas muito pequenas, reduz um pouco os espaçamentos
+   e o tamanho da fonte do visor, para tudo continuar cabendo na tela.
+   ------------------------------------------------------------------------- */
+@media (max-width: 360px) {
+    .calculadora {
+        padding: 14px;
+        border-radius: 18px;
+    }
+
+    .visor {
+        font-size: 1.9rem;
+    }
+
+    .btn {
+        padding: 14px 0;
+        font-size: 1rem;
+    }
+}
+
+/* Respeita a preferência do usuário por menos animações no sistema. */
+@media (prefers-reduced-motion: reduce) {
+    .btn {
+        transition: none;
+    }
+}
