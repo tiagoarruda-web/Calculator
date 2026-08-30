@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <!-- Garante que a página seja responsiva em celulares, ajustando a largura à tela do dispositivo -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Python</title>
+
+    <!-- Link para o arquivo de estilos (CSS). O Flask serve arquivos estáticos
+         a partir da rota /static/, por isso o caminho abaixo. -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- Contêiner principal da calculadora -->
+    <main class="calculadora">
+
+        <!-- Display onde o usuário vê o que está digitando e o resultado -->
+        <div class="display">
+            <!-- Linha superior: mostra a expressão/operação em andamento, ex: "12 + 8" -->
+            <div id="expressao" class="expressao"></div>
+            <!-- Linha principal: mostra o número atual ou o resultado final -->
+            <div id="visor" class="visor">0</div>
+        </div>
+
+        <!-- Grade de botões da calculadora -->
+        <div class="botoes">
+
+            <!-- Linha 1: limpar, apagar último dígito, porcentagem, divisão -->
+            <button class="btn btn-limpar" data-acao="limpar">C</button>
+            <button class="btn btn-funcao" data-acao="apagar">⌫</button>
+            <button class="btn btn-operador" data-operador="porcentagem">%</button>
+            <button class="btn btn-operador" data-operador="divisao">÷</button>
+
+            <!-- Linha 2: 7, 8, 9, multiplicação -->
+            <button class="btn btn-numero" data-numero="7">7</button>
+            <button class="btn btn-numero" data-numero="8">8</button>
+            <button class="btn btn-numero" data-numero="9">9</button>
+            <button class="btn btn-operador" data-operador="multiplicacao">×</button>
+
+            <!-- Linha 3: 4, 5, 6, subtração -->
+            <button class="btn btn-numero" data-numero="4">4</button>
+            <button class="btn btn-numero" data-numero="5">5</button>
+            <button class="btn btn-numero" data-numero="6">6</button>
+            <button class="btn btn-operador" data-operador="subtracao">−</button>
+
+            <!-- Linha 4: 1, 2, 3, soma -->
+            <button class="btn btn-numero" data-numero="1">1</button>
+            <button class="btn btn-numero" data-numero="2">2</button>
+            <button class="btn btn-numero" data-numero="3">3</button>
+            <button class="btn btn-operador" data-operador="soma">+</button>
+
+            <!-- Linha 5: raiz quadrada, 0, ponto decimal, igual -->
+            <button class="btn btn-funcao" data-acao="raiz">√</button>
+            <button class="btn btn-numero" data-numero="0">0</button>
+            <button class="btn btn-numero" data-numero=".">.</button>
+            <button class="btn btn-igual" data-acao="igual">=</button>
+
+        </div>
+
+        <!-- Área para exibir mensagens de erro vindas do back-end (ex: divisão por zero) -->
+        <div id="mensagem-erro" class="mensagem-erro"></div>
+    </main>
+
+    <!-- Script com toda a interatividade (capturar cliques, montar a expressão,
+         chamar a API do Flask e mostrar o resultado). Colocado no final do body
+         para garantir que o HTML já esteja carregado quando o JS for executado. -->
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
